@@ -1,0 +1,222 @@
+def Pass():
+    print('______')
+    [print('  ||') for i in range(2)]
+    print(" \||/")
+    print("  \/")
+
+
+def D_Pass():
+    print('  /\\')
+    print(' /||\\')
+    [print('  ||') for i in range(1)]
+    print(" \||/")
+    print("  \/")
+
+
+#request = input().split(',')
+request = '1,7,9,,,,17,1,9,,,4,5'.split(',')
+#request = '5,4,8,11,,13,4,7,2,,,,1'.split(',')
+new_request = []
+for i in request:
+    if i == '':
+        i = 'STOP'
+    new_request.append(i)
+
+print(new_request)
+Pass()
+
+Map = []
+Map_clone = {}
+mini_map = []
+class_count = 1
+probable_count = 0
+count = 0
+try:
+    while True:
+        vice_count = 0
+        mini_map = []
+        for i in range(class_count):
+            i = i + probable_count
+            if new_request[i] != 'STOP':
+                mini_map.append([i - probable_count, int(new_request[i])])
+            else:
+                mini_map.append([i - probable_count, '-'])
+                vice_count -= 2
+        Map.append(mini_map)
+        Map_clone[count] = mini_map
+        probable_count += class_count
+        class_count = class_count * 2 + vice_count
+        count += 1
+        if class_count >= len(new_request):
+            break
+except Exception:
+    pass
+
+[print(i) for i in Map]
+Pass()
+
+i_count = -1
+count = 0
+flag = True
+class_count = 0
+Map_clone_clone = []
+Map_clx3 = Map
+for count in range(len(Map_clx3[:-1])):
+
+    if flag:
+        Map_clone_clone.append(Map_clx3[count])
+        flag = False
+
+    class_count += 1
+    for LisT in Map_clx3[count]:
+        if LisT[1] == '-':
+            i_count = LisT[0] * 2
+            mini_map = []
+
+            for i in range(len(Map_clx3[class_count])):
+                if i == i_count:
+                    mini_map.append([i_count, '-'])
+                    mini_map.append([i_count + 1, '-'])
+                mini_map.append(Map_clx3[class_count][i])
+        else:
+            continue
+
+        Map_clx3[class_count] = mini_map
+
+    if Map_clx3[class_count] not in Map_clone_clone:
+        Map_clone_clone.append(Map_clx3[class_count])
+
+[print(i) for i in Map_clone_clone]
+Pass()
+
+for stroka in Map_clone_clone:
+    probable_count = -1
+    for LisT in stroka:
+        if LisT[0] == probable_count - 1:
+            LisT[0] = LisT[0] + 2
+        probable_count = LisT[0]
+
+Lists = []
+ML = 2 ** (len(Map_clone_clone) - 1)
+for STR in Map_clone_clone:
+    promo_list = []
+    for List in STR:
+        if STR[-1][0] + 1 <= ML/2:
+            promo_list.append([List] * (ML // len(STR)))
+        else:
+            promo_list.append([List])
+    new_promo_list = []
+    for i in promo_list:
+        for g in i:
+            new_promo_list.append(g)
+    Lists.append(new_promo_list)
+
+print(Lists)
+D_Pass()
+[print(List) for List in Lists]
+
+Map_of_Stolbez = []
+for LEN in range(ML):
+    promo_list = []
+    for stroka in Lists:
+        promo_list.append(stroka[LEN])
+    Map_of_Stolbez.append(promo_list)
+
+Pass()
+[print(i) for i in Map_of_Stolbez]
+D_Pass()
+
+#renombered
+for i in Map_of_Stolbez:
+    count = 0
+    for g in i:
+        g[0] = count
+        count += 1
+
+[print(i) for i in Map_of_Stolbez]
+Pass()
+
+#отключение невозможных путей
+#отключение системы индексов
+request.clear()
+Map.clear()
+G_count = 0
+for stroka in Map_of_Stolbez:
+    mini_map = []
+    maxi_map = []
+    count = 0
+    i_count = 0
+    flag = True
+    for elem in stroka:
+        if elem[-1] == '-':
+            flag = False
+            for i in Map_of_Stolbez:
+                if i[:elem[0]] == stroka[:elem[0]] and i[elem[0]] != stroka[elem[0]]:
+                    flag = False
+                    break
+                else:
+                    flag = True
+            if flag:
+                mini_map.append(elem[-1])
+                maxi_map.append(elem)
+            break
+        else:
+            mini_map.append(elem[-1])
+            maxi_map.append(elem)
+    if flag:
+        request.append(mini_map)
+        Map.append(maxi_map)
+    G_count += 1
+
+[print(i) for i in Map]
+Pass()
+
+#универсальная часть закончилась
+#форматирование списка 'list(set(list))'
+for stroka in Map:
+    if Map.count(stroka) >= 2:
+        [Map.remove(stroka) for i in range(Map.count(stroka)-1)]
+    elif Map.count(stroka) > 1:
+        Map.remove(stroka)
+
+[print(i) for i in Map]
+D_Pass()
+
+[print(i) for i in request]
+Pass()
+
+
+#форматирование списка 'list(set(list))'
+for stroka in request:
+    if '-' in stroka:
+        if request.count(stroka) >= 2:
+            [request.remove(stroka) for i in range(request.count(stroka)-1)]
+        elif request.count(stroka) > 1:
+            request.remove(stroka)
+
+[print(i) for i in request]
+D_Pass()
+
+#добавление сумм
+for stroka in request:
+    S = 0
+    for g in stroka:
+        if g != '-':
+            S += g
+        else:
+            stroka.remove(g)
+    stroka.append(S)
+
+[print(i) for i in request]
+print('\n')
+
+Summ = int(input('Sum void: '))
+Pass()
+for i in request:
+    result = ''
+    if i[-1] == Summ:
+        for elem in i[:-1]:
+            result += str(elem) + ' -+-> '
+        result = result[:-6]
+        result += ' -=-> ' + str(i[-1])
+        print(result)
