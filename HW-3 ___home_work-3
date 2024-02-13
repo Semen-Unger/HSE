@@ -13,8 +13,8 @@ def D_Pass():
     print("  \/")
 
 
-#request = input().split(',')
-request = '1,7,9,,,,17,1,9,,,4,5'.split(',')
+request = input().split(',')
+#request = '1,7,9,,,,17,1,9,,,4,5'.split(',')
 #request = '5,4,8,11,,13,4,7,2,,,,1'.split(',')
 new_request = []
 for i in request:
